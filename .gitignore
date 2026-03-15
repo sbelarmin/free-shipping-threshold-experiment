@@ -1,0 +1,72 @@
+# ---------------------------
+# Python
+# ---------------------------
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Distribution / packaging
+build/
+dist/
+*.egg-info/
+
+# ---------------------------
+# Virtual environments
+# ---------------------------
+.venv/
+venv/
+env/
+
+# ---------------------------
+# Jupyter Notebook
+# ---------------------------
+.ipynb_checkpoints/
+
+# ---------------------------
+# MacOS system files
+# ---------------------------
+.DS_Store
+
+# ---------------------------
+# IDE files
+# ---------------------------
+.vscode/
+.idea/
+
+# ---------------------------
+# Logs
+# ---------------------------
+*.log
+
+# ---------------------------
+# Data (large or private)
+# ---------------------------
+data/raw/
+data/interim/
+data/processed/
+# sharable synthetic
+!data/synthetic/
+
+# ---------------------------
+# Generated outputs
+# ---------------------------
+reports/figures/
+reports/tables/
+artifacts/
+
+# ---------------------------
+# Python testing cache
+# ---------------------------
+.pytest_cache/
+
+# ---------------------------
+# Environment variables
+# ---------------------------
+.env
+.env.*
+
+# ---------------------------
+# Temporary files
+# ---------------------------
+*.tmp
+*.temp
