@@ -68,7 +68,11 @@ Below is the comparison of contribution margin per session across treatments.
 
 ![Contribution Margin Comparison](reports/figures/cm_per_session_comparison.png)
 
----
+---  
+
+Below is the conversion and average order value tradeoff across treatments.  
+
+![Conversion AOV Tradeoff](reports/figures/conversion_tradeoff.png)
 
 # Experiment Design
 
