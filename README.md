@@ -64,19 +64,6 @@ The $65 threshold increases order value but reduces demand too much to compensat
 The $50 threshold provides the best balance of conversion and profitability.
 
 ---
-
-# Key Plots
-
-Below is the comparison of contribution margin per session across treatments.
-
-![Contribution Margin Comparison](reports/figures/cm_per_session_comparison.png)
-
----  
-
-Below is the conversion and average order value tradeoff across treatments.  
-
-![Conversion AOV Tradeoff](reports/figures/conversion_tradeoff.png)
-
 # Experiment Design
 
 ### Unit of Randomization
@@ -338,6 +325,19 @@ This indicates that the observed difference between the two arms is likely due t
 
 ---
 
+# Key Plots
+
+Below is the comparison of contribution margin per session across treatments.
+
+![Contribution Margin Comparison](reports/figures/cm_per_session_comparison.png)
+
+---  
+
+Below is the conversion and average order value tradeoff across treatments.  
+
+![Conversion AOV Tradeoff](reports/figures/conversion_tradeoff.png)
+
+---
 # Final Decision
 
 Based on the experiment results, the recommended policy is:
