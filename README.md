@@ -1,3 +1,6 @@
+### _End-to-end experimentation framework demonstrating experiment design, metric development, power analysis, diagnostics, and decision analysis for an ecommerce free-shipping policy test._
+
+---
 
 # Free Shipping Threshold Experiment
 
@@ -46,9 +49,9 @@ Contribution Margin per Session (CM / Session)
 
 | Treatment | Conversion Rate | Avg Order Value | CM per Session |
 | --------- | --------------- | --------------- | -------------- |
-| T35       | 5.9%            | $48             | $2.85          |
-| T50       | 5.1%            | $56             | $3.12          |
-| T65       | 4.3%            | $63             | $2.94          |
+| T35       | 2.21%           | $44             | $0.232         |
+| T50       | 2.05%           | $55             | $0.332         |
+| T65       | 1.75%           | $60             | $0.334         |
 
 
 ### Recommendation
@@ -62,7 +65,7 @@ The $50 threshold provides the best balance of conversion and profitability.
 
 ---
 
-# Key Result
+# Key Plots
 
 Below is the comparison of contribution margin per session across treatments.
 
@@ -131,6 +134,34 @@ Shipping promotions directly affect profitability. Measuring margin per session 
 
 ---
 
+### Guardrail Metrics  
+
+| Metric                     | Purpose                                                    |
+| -------------------------- | ---------------------------------------------------------- |
+| Shipping Subsidy per Order | Ensure shipping incentives are financially sustainable     |
+| Negative Margin Order Rate | Ensure we are not creating significant unprofitable orders |
+| Revenue per Session        | Ensure we are not sacrificing revenue for margin           |
+
+---
+
+# Business Decision Rules  
+
+A new free-shipping threshold will be recommended only if it: 
+
+    1. Imporves contribution margin per session relative to the current $50 threshold by a statistically significant and economically meaningful amount.  
+    2. Does not materially reduce revenue per session and conversion rate.  
+    3. Does not create unacceptable movement in guardrail metrics  
+
+The experiment design and results should be reviewed before rollout if:   
+
+    1. Contribution margin per session improves, but revenue or guardrails worsen by a meaningful amount  
+
+The free-shipping rollout should remain in place at $50 if:   
+
+    1. Contribution margin per session does not improve  
+
+---  
+
 # Data Generation
 
 This project uses **synthetic data** to simulate realistic e-commerce customer behavior.
@@ -145,6 +176,28 @@ Simulated features include:
 - product margin
 
 Synthetic data allows the experiment analysis to be reproduced without using proprietary data.
+
+---  
+
+# Power Analysis  
+
+A power analysis was performed to ensure the experiment has a good chance of detecting meaningful improvement in contribution margin per session (primary metric) by providing: 
+
+        1. How much data do we need?
+        2. How long should we run the experiment?  
+
+Results:   
+
+| Parameter                           | Value     |
+| ----------------------------------- | --------- |
+| Avg. Session per Day                | 10,000    |
+| Minimum Detectible Effect           | 0.025     |
+| Experiment Arms                     | 3         |
+| Alpha                               | 0.05      |
+| Power                               | 0.80      |
+| Sample size per arm                 | ~ 150,000 |
+| Test duration                       | ~ 45 days |
+| Minimum Est. Annual Business Impact | ~ $91,000 |
 
 ---
 
@@ -191,7 +244,6 @@ Possible extensions:
 - heterogeneous treatment effects by customer segment
 - shipping elasticity modeling
 - longer-term retention impact
-- CUPED variance reduction
 - Bayesian experiment analysis
 
 ---
@@ -199,4 +251,9 @@ Possible extensions:
 # Author
 
 Scott Belarmino  
-Data Science Portfolio Project
+Data Science Portfolio Project  
+## Note on Tooling
+
+Large language models (LLMs) were used to assist with documentation organization and readability improvements in this project.  
+
+All experiment design, data generation logic, analysis methodology, and interpretation were developed and verified by the author.
