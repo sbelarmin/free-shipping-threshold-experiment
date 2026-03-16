@@ -1,0 +1,42 @@
+# configs/experiment_config.yaml
+
+experiment:
+  arms:
+    t35:
+      conversion_rate: 0.0225
+      target_aov: 44
+      free_shipping_qualification_rate: 0.70
+
+    t50:
+      conversion_rate: 0.0200
+      target_aov: 55
+      free_shipping_qualification_rate: 0.50
+
+    t65:
+      conversion_rate: 0.0170
+      target_aov: 59
+      free_shipping_qualification_rate: 0.33
+
+economics:
+  shipping_cost_per_order: 8.99
+  shipping_fee_if_not_qualified: 5.99
+  cogs_ratio: 0.60
+
+traffic:
+  avg_sessions_per_day: 10000
+  session_std_dev: 800
+
+experiment_dates:
+  pre_period_start: "2025-01-01"
+  test_start: "2025-06-01"
+  test_end: "2025-07-15"
+
+basket_model:
+  avg_units_per_order: 2.5
+  units_std_dev: 1.0
+
+  unit_price_mean: 20
+  unit_price_std_dev: 5
+
+  min_unit_price: 5
+  max_unit_price: 80
