@@ -49,7 +49,7 @@ data/synthetic/*.csv
 # ---------------------------
 # Generated outputs
 # ---------------------------
-reports/figures/
+!reports/figures/
 reports/tables/
 artifacts/
 
