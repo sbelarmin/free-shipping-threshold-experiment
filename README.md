@@ -175,7 +175,10 @@ Simulated features include:
 - shipping cost
 - product margin
 
-Synthetic data allows the experiment analysis to be reproduced without using proprietary data.
+Synthetic data allows the experiment analysis to be reproduced without using proprietary data.  
+
+_Please see the end of this document for experiment replication instructions._ 
+
 
 ---  
 
@@ -237,6 +240,130 @@ The analysis focuses on **practical business impact**, not just statistical sign
 
 ---
 
+# Experiment Results  
+
+The experiment was designed to evaluate which free shipping threshold maximizes contribution margin while maintaining healthy customer behavior and sustainable shipping economics.
+
+The predefined decision framework was:  
+        1. The **primary metric (Contribution Margin per Session)** determines the winning treatment.  
+        2. **Secondary metrics** explain the behavioral mechanism  
+        3. **Guardrail metrics** ensure the policy does not harm the business  
+        4. **Uncertainty analysis** ensures the observed effects are reliable  
+
+---
+
+## 1. Primary Metric Result
+
+Contribution margin per session:
+
+| Arm | CM per Session |
+| --- | -------------- |
+| t35 | 0.232          |
+| t50 | 0.332          |
+| t65 | 0.334          |
+
+Observations:
+
+    - `t35` performs substantially worse than the baseline.
+    - `t50` and `t65` perform nearly identically.
+    - `t65` is slightly higher than `t50`, but the improvement is extremely small.
+
+The observed difference between `t65` and `t50` is:
+
+```
++0.002 CM per session
+```
+
+This represents a relative lift of approximately:
+
+```
+~0.6%
+```
+
+---
+
+## 2. Secondary Metric Interpretation
+
+Secondary metrics explain the behavioral mechanism behind the results.
+
+| Arm | Conversion | AOV      | Revenue / Session |
+| --- | ---------- | -------- | ----------------- |
+| t35 | highest    | lowest   | lowest            |
+| t50 | moderate   | moderate | highest           |
+| t65 | lowest     | highest  | moderate          |
+
+Interpretation:
+
+    - Lower thresholds increase conversion but reduce basket size.
+    - Higher thresholds reduce conversion but increase basket size.
+    - The $50 threshold produces the best balance of conversion and order value.
+
+---
+
+## 3. Guardrail Metrics
+
+Guardrail metrics ensure the experiment does not introduce unacceptable risk.
+
+| Arm | Shipping Subsidy | Negative Margin Orders |
+| --- | ---------------- | ---------------------- |
+| t35 | highest          | 0%                     |
+| t50 | moderate         | 0%                     |
+| t65 | lowest           | 0%                     |
+
+Interpretation:
+
+    - Lower thresholds increase shipping subsidy exposure.
+    - Higher thresholds reduce shipping costs but at the expense of conversion.
+    - No treatment created negative margin orders.
+
+---
+
+## 4. Uncertainty Analysis
+
+Confidence intervals and hypothesis tests indicate:
+
+    - `t35` performs **significantly worse** than the baseline.
+    - The difference between `t65` and `t50` is **not statistically significant**.
+
+The confidence intervals for `t50` and `t65` overlap substantially.
+
+This indicates that the observed difference between the two arms is likely due to random variation.  
+
+| Threshold vs. Baseline   | Value       |
+| ------------------------ | ----------- |
+| t-stat for t65 vs. t50:  | 0.2288      |
+| p_value for t65 vs. t50: | 0.81896     |
+| t-stat for t35 vs. t50:  | -13.3216    |
+| p_value for t35 vs. t50: | 1.77882e-51 |
+
+---
+
+# Final Decision
+
+Based on the experiment results, the recommended policy is:
+
+```
+Maintain the current $50 free shipping threshold.
+```
+
+Reasoning:
+
+    1. The $35 threshold significantly harms profitability.
+    2. The $65 threshold provides only a negligible improvement in margin.
+    3. The $65 threshold reduces revenue per session and conversion.
+    4. The difference between $50 and $65 is not statistically significant.
+
+Therefore, there is insufficient evidence that changing the threshold would improve business outcomes.
+
+---
+
+# Key Takeaway
+
+The experiment suggests that the current $50 threshold is already close to optimal.
+
+The experiment does provide valuable insight by validating the current pricing and shipping strategy.  
+
+---
 # Future Improvements
 
 Possible extensions:
@@ -250,10 +377,183 @@ Possible extensions:
 
 # Author
 
-Scott Belarmino  
+## Scott Belarmino  
 Data Science Portfolio Project  
-## Note on Tooling
+
+---  
+### Note on Tooling
 
 Large language models (LLMs) were used to assist with documentation organization and readability improvements in this project.  
+All experiment design, data generation logic, analysis methodology, and interpretation were developed and verified by the author.  
 
-All experiment design, data generation logic, analysis methodology, and interpretation were developed and verified by the author.
+---  
+
+## Reproducing the Synthetic Experiment
+
+This project includes a configuration-driven synthetic data generator so the entire experiment can be reproduced end-to-end.
+
+The steps below allow a viewer to regenerate the synthetic dataset and rerun the analysis notebook.
+
+---
+
+### 1. Clone the Repository
+
+```bash
+git clone <your-repo-url>
+cd project_2_ab_testing
+```
+
+---
+
+### 2. Create and Activate a Virtual Environment
+
+#### Mac / Linux
+
+```bash
+python3 -m venv .venv
+source .venv/bin/activate
+```
+
+#### Windows
+
+```bash
+python -m venv .venv
+.venv\Scripts\activate
+```
+
+---
+
+### 3. Install Dependencies
+
+Install the required Python packages:
+
+```bash
+pip install -r requirements.txt
+```
+
+If a `requirements.txt` file is not available yet, install the core packages manually:
+
+```bash
+pip install pandas numpy scipy statsmodels pyyaml matplotlib jupyter nbconvert
+```
+
+---
+
+### 4. Review the Experiment Configuration
+
+The synthetic data assumptions are stored in:
+
+```
+configs/experiment_config.yaml
+```
+
+This configuration file controls the simulated business environment, including:
+
+- experiment arms
+- conversion rates
+- target average order values
+- free shipping qualification rates
+- shipping cost assumptions
+- traffic assumptions
+- experiment dates
+- basket generation parameters
+
+You can modify this file to simulate different business scenarios.
+
+---
+
+### 5. Generate the Synthetic Dataset
+
+Run the synthetic data pipeline from the project root directory:
+
+```bash
+python src/simulation/generate_free_shipping_experiment.py
+```
+
+This script generates session-level synthetic data representing user visits, orders, and associated economics.
+
+The dataset will be saved to:
+
+```
+data/synthetic/free_shipping_experiment_sessions.csv
+```
+
+---
+
+### 6. Run the Experiment Analysis Notebook
+
+Launch Jupyter:
+
+```bash
+jupyter notebook
+```
+
+Open the analysis notebook:
+
+```
+notebooks/02_experiment_analysis.ipynb
+```
+
+Run all cells to reproduce the experiment workflow, including:
+
+- experiment diagnostics
+- sample ratio mismatch checks
+- experiment summary tables
+- primary metric analysis
+- behavioral mechanism analysis
+- guardrail metric validation
+- statistical inference
+- confidence interval estimation
+- experiment decision analysis
+
+---
+
+### 7. Optional: Regenerate Data with a Different Random Seed
+
+The synthetic generator uses a fixed random seed for reproducibility.
+
+To generate a different dataset, update the seed in:
+
+```
+src/simulation/generate_free_shipping_experiment.py
+```
+
+Example:
+
+```python
+if __name__ == "__main__":
+    main(seed=42)
+```
+
+Change the seed value (for example to `123`) and rerun the generator.
+
+---
+
+### 8. Optional: Export the Analysis Notebook
+
+To export the notebook to HTML:
+
+```bash
+jupyter nbconvert --to html notebooks/02_experiment_analysis.ipynb
+```
+
+The HTML file can then be opened in a browser and printed to PDF if desired.
+
+---
+
+### Expected Outputs
+
+After running the pipeline, viewers should be able to reproduce:
+
+- the synthetic session-level experiment dataset
+- summary metrics for each free shipping threshold
+- statistical comparisons between experiment arms
+- the final business recommendation
+
+For reproducibility, all experiment assumptions are centralized in:
+
+```
+configs/experiment_config.yaml
+```
+
+and synthetic data generation is deterministic when using a fixed random seed.
